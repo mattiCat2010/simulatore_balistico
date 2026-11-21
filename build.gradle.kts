@@ -20,6 +20,8 @@ dependencies {
 
     implementation(orx.bundles.basic)
     implementation(orx.olive)
+    implementation(orx.gui)
+    implementation(orx.camera)
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.core)
