@@ -2,18 +2,18 @@ import org.openrndr.ExtensionStage
 import org.openrndr.application
 import org.openrndr.color.ColorRGBa
 import org.openrndr.extra.camera.Camera2D
-import org.openrndr.extra.color.presets.DARK_GREY
 import org.openrndr.extra.color.presets.LIGHT_BLUE
 import org.openrndr.extra.color.presets.LIGHT_CORAL
 import org.openrndr.extra.color.presets.LIGHT_GREEN
 import org.openrndr.extra.color.presets.WHITE_SMOKE
+import org.openrndr.extra.gui.GUI
+import org.openrndr.extra.gui.GUIAppearance
+import org.openrndr.extra.parameters.BooleanParameter
+import org.openrndr.extra.parameters.DoubleParameter
 import org.openrndr.panel.elements.round
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
-import org.openrndr.extra.gui.GUI
-import org.openrndr.extra.gui.GUIAppearance
-import org.openrndr.extra.parameters.*
 
 fun main() = application {
     configure {
@@ -151,7 +151,7 @@ fun main() = application {
                     else height - 50 - yMax
 
                     var s: Double = t - dt
-                    while(s <= t){ // to increase sampling rate i interpolate the frames in between one frame and the next.
+                    while(s <= t){ // to increase sampling rate I interpolate the frames in between one frame and the next.
                         val interY = h - (vy0 * s - 0.5 * g * s * s) * scale
                         val interX = vx0 * s * scale
                         if (interY+5 >= height-50.0) {
@@ -200,7 +200,7 @@ fun main() = application {
         extend(ExtensionStage.AFTER_DRAW) {
             if (landed) {
                 drawer.fill = ColorRGBa.BLACK
-                drawer.text("T_volo = " + tVolo.toString(), x + 10, y - 30.0)
+                drawer.text("T_volo = $tVolo", x + 10, y - 30.0)
 
                 drawer.fill = ColorRGBa.BLACK
                 drawer.text("Gittata = " + ((G-5.0) / scale).round(2).toString(), x + 10, y - 50.0)

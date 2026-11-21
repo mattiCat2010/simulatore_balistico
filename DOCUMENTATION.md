@@ -5,7 +5,7 @@ A feature rich template for creating OPENRNDR programs based on [Gradle/Kts](htt
 The template consists of a configuration for Gradle and two example OPENRNDR programs. The Gradle configuration should serve as the
 go-to starting point for writing OPENRNDR-based software.
 
-If you are looking at this from IntelliJ IDEA you can start by expanding the _project_ tab on the left. You will find a template program in `src/main/kotlin/TemplateProgram.kt` and a live-coding example in `src/main/kotlin/TemplateLiveProgram.kt`.
+If you are looking at this from IntelliJ IDEA you can start by expanding the _project_ tab on the left. You will find a template program in `src/main/kotlin/SimulatoreBalistico.kt` and a live-coding example in `src/main/kotlin/TemplateLiveProgram.kt`.
 
 You will find some [basic instructions](https://guide.openrndr.org/setUpYourFirstProgram.html) in the [OPENRNDR guide](https://guide.openrndr.org).
 
