@@ -1,11 +1,11 @@
 # Simulatore Balistico
-Un Simulatore di moto parabolico scritto in Kotlin con OPENRNDR cercando di imitare lo stile giocoso di WII Sport mantenendo l'interfaccia di una strumentazione scientifica.
+Un Simulatore di moto parabolico scritto in Kotlin con OPENRNDR cercando di imitare lo stile giocoso di WII Sport mantenendo l'interfaccia di una strumentazione scientifica. \
 ![App Demo](full-demo.gif)
 
 ## Features
-1. Simula il lancio di un corpo con diversi parametri iniziali
+1. Simula il lancio di un corpo con diversi parametri iniziali \
    ![Fig. 01 ~ Finestra principale](demo_01.gif)
-2. Muovi la camera per osservare meglio ogni lancio
+2. Muovi la camera per osservare meglio ogni lancio \
    ![Fig. 02 ~ Camera (Pan, Zoom)](camera-demo.gif)
 3. Cambia velocemente i parametri \
    ![Fig. 03 ~ Menu parametri](parameters-demo.gif)
