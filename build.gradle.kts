@@ -6,6 +6,7 @@ plugins {
     id("conventions.kotlin-jvm")
     id("conventions.template-tasks")
     id("conventions.openrndr-tasks")
+    id("org.panteleyev.jpackageplugin")
     id("conventions.distribute-application")
 }
 
@@ -22,6 +23,9 @@ dependencies {
     implementation(orx.olive)
     implementation(orx.gui)
     implementation(orx.camera)
+
+    implementation("org.jetbrains.lets-plot:lets-plot-kotlin-jvm:4.9.3")
+    implementation("org.jetbrains.lets-plot:platf-awt-jvm:4.5.2")
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.core)
