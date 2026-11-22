@@ -6,6 +6,7 @@ plugins {
     id("conventions.kotlin-jvm")
     id("conventions.template-tasks")
     id("conventions.openrndr-tasks")
+    id("org.panteleyev.jpackageplugin")
     id("conventions.distribute-application")
 }
 
