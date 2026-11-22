@@ -4,13 +4,18 @@ import org.openrndr.color.ColorRGBa
 import org.openrndr.extra.camera.Camera2D
 import org.openrndr.extra.color.presets.LIGHT_BLUE
 import org.openrndr.extra.color.presets.LIGHT_CORAL
+import org.openrndr.extra.color.presets.LIGHT_CYAN
 import org.openrndr.extra.color.presets.LIGHT_GREEN
+import org.openrndr.extra.color.presets.POWDER_BLUE
 import org.openrndr.extra.color.presets.WHITE_SMOKE
 import org.openrndr.extra.gui.GUI
 import org.openrndr.extra.gui.GUIAppearance
+import org.openrndr.extra.gui.WindowedGUI
 import org.openrndr.extra.parameters.BooleanParameter
 import org.openrndr.extra.parameters.DoubleParameter
 import org.openrndr.panel.elements.round
+import org.openrndr.panel.style.Color
+import org.openrndr.panel.style.defaultStyles
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
@@ -26,10 +31,16 @@ fun main() = application {
     }
 
     program {
-        val gui = GUI(
+        val gui = WindowedGUI(
             GUIAppearance(
-                baseColor = ColorRGBa.WHITE_SMOKE.opacify(0.5),
-                barWidth = 250
+                baseColor = ColorRGBa.WHITE,
+                barWidth = 250,
+            ),
+            defaultStyles(
+                controlHoverBackground = ColorRGBa.LIGHT_CYAN,
+                controlTextColor = Color.RGBa(ColorRGBa.BLACK),
+                controlActiveColor = Color.RGBa(ColorRGBa.fromHex("#D43815FF")),
+                controlFontSize = 20.0
             )
         )
 
@@ -49,6 +60,7 @@ fun main() = application {
         }
 
         gui.add(settings, "Projectile settings")
+        gui.gui.compartmentsCollapsedByDefault = false
         extend(gui)
 
         val camera = Camera2D()
