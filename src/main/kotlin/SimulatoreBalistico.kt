@@ -1,14 +1,11 @@
+import org.jetbrains.letsPlot.export.ggsave
+import org.jetbrains.letsPlot.geom.geomLine
+import org.jetbrains.letsPlot.letsPlot
 import org.openrndr.ExtensionStage
 import org.openrndr.application
 import org.openrndr.color.ColorRGBa
 import org.openrndr.extra.camera.Camera2D
-import org.openrndr.extra.color.presets.LIGHT_BLUE
-import org.openrndr.extra.color.presets.LIGHT_CORAL
-import org.openrndr.extra.color.presets.LIGHT_CYAN
-import org.openrndr.extra.color.presets.LIGHT_GREEN
-import org.openrndr.extra.color.presets.POWDER_BLUE
-import org.openrndr.extra.color.presets.WHITE_SMOKE
-import org.openrndr.extra.gui.GUI
+import org.openrndr.extra.color.presets.*
 import org.openrndr.extra.gui.GUIAppearance
 import org.openrndr.extra.gui.WindowedGUI
 import org.openrndr.extra.parameters.BooleanParameter
@@ -16,9 +13,24 @@ import org.openrndr.extra.parameters.DoubleParameter
 import org.openrndr.panel.elements.round
 import org.openrndr.panel.style.Color
 import org.openrndr.panel.style.defaultStyles
+import java.io.File
+import java.util.*
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
+
+fun openFile(file: File) {
+    val cmd = when (System.getProperty("os.name")?.lowercase(Locale.ROOT)) {
+        "mac os x" -> listOf("open", file.absolutePath)
+        "windows" -> listOf("cmd", "/c", "start", "", file.absolutePath)
+        else -> listOf("xdg-open", file.absolutePath)
+    }
+    try {
+        ProcessBuilder(cmd).start()
+    } catch (e: Exception) {
+        println("Could not open ${file.absolutePath}: ${e.message}")
+    }
+}
 
 fun main() = application {
     configure {
@@ -99,6 +111,24 @@ fun main() = application {
         var last: Double = 0.0
         var landed = false
 
+        fun drawTrajectory() {
+            // G is the flight distance in pixels; scale is px/m -> range in meters
+            val xValues = (0..(G/scale).toInt()).map { it.toDouble() }
+            // Textbook trajectory in meters: Y = Y0 + (vy0/vx0)*x - g*x^2/(2*vx0^2)
+            if (vx0 != 0.0){
+                val yValues = xValues.map { x -> settings.initialHeight + (vy0/vx0)*x - g*x*x/(2*vx0*vx0) }
+                val data = mapOf("x" to xValues, "y" to yValues)
+
+                val plot = letsPlot(data) + geomLine(color = "blue", size = 1.2) {
+                    this.x = "x"
+                    this.y = "y"
+                }
+
+                // headless-safe: write the SVG and open it with the OS default app
+                openFile(File(ggsave(plot, "trajectory.svg")))
+            }
+        }
+
         fun drawScene() {
             drawer.fill = ColorRGBa.LIGHT_GREEN
             drawer.rectangle(-(x + width.toDouble()), height.toDouble() - 50.0, 2 * (x + width.toDouble()) * 10, 50.0)
@@ -123,7 +153,7 @@ fun main() = application {
 
                 drawer.rectangle(
                     markerX - 3.0,
-                    height - 50.0,
+                    height - 50.0 - 10,
                     6.0,
                     12.0
                 )
@@ -131,7 +161,7 @@ fun main() = application {
                 drawer.fill = ColorRGBa.WHITE
                 drawer.rectangle(
                     markerX - 12.0,
-                    height - 62.0,
+                    height - 62.0 - 10,
                     24.0,
                     14.0
                 )
@@ -140,13 +170,14 @@ fun main() = application {
                 drawer.text(
                     "${distance.toInt()}",
                     markerX - 8.0,
-                    height - 52.0
+                    height - 52.0 - 10.5
                 )
             }
         }
 
         extend {
             if(settings.start) {
+                drawer.strokeWeight = 0.5
                 if (!landed) {
                     val dt = seconds - last
                     last = seconds
@@ -170,6 +201,8 @@ fun main() = application {
                             landed = true
                             tVolo = s.toFloat()
                             G = interX
+
+                            drawTrajectory()
                         }
                         s+=0.01
                     }
@@ -215,7 +248,7 @@ fun main() = application {
                 drawer.text("T_volo = $tVolo", x + 10, y - 30.0)
 
                 drawer.fill = ColorRGBa.BLACK
-                drawer.text("Gittata = " + ((G-5.0) / scale).round(2).toString(), x + 10, y - 50.0)
+                drawer.text("Gittata = " + ((G) / scale).round(2).toString(), x + 10, y - 50.0)
 
                 drawer.fill = ColorRGBa.BLACK
                 drawer.text("Y MAX = " + (hMax / scale).round(2).toString(), x + 10, y - 70.0)
